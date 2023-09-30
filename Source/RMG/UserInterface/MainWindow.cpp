@@ -1339,7 +1339,7 @@ void MainWindow::on_Action_System_OpenRom(void)
         this->ui_NoSwitchToRomBrowser = true;
     }
 
-    this->launchEmulationThread(romFile);
+    this->launchEmulationThread(QDir::toNativeSeparators(romFile));
 }
 
 void MainWindow::on_Action_System_OpenCombo(void)
@@ -1382,7 +1382,7 @@ void MainWindow::on_Action_System_OpenCombo(void)
         this->ui_NoSwitchToRomBrowser = true;
     }
 
-    this->launchEmulationThread(cartRom, diskRom);
+    this->launchEmulationThread(QDir::toNativeSeparators(cartRom), QDir::toNativeSeparators(diskRom));
 }
 
 void MainWindow::on_Action_System_Shutdown(void)
@@ -1508,6 +1508,9 @@ void MainWindow::on_Action_System_SaveAs(void)
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save State"), "", tr("Save State (*.state);;All Files (*)"));
 
+    // convert to native slashes
+    fileName = QDir::toNativeSeparators(fileName);
+
     if (!fileName.isEmpty())
     {
         this->ui_ManuallySavedState = true;
@@ -1556,6 +1559,9 @@ void MainWindow::on_Action_System_Load(void)
 
     QString fileName =
         QFileDialog::getOpenFileName(this, tr("Open Save State"), "", tr("Save State (*.dat *.state *.st* *.pj*);;All Files (*)"));
+
+    // convert to native slashes
+    fileName = QDir::toNativeSeparators(fileName);
 
     if (!fileName.isEmpty())
     {
@@ -1870,7 +1876,7 @@ void MainWindow::on_RomBrowser_PlayGameWith(CoreRomType type, QString file)
         return;
     }
 
-    this->launchEmulationThread(mainRom, otherRom);
+    this->launchEmulationThread(QDir::toNativeSeparators(mainRom), QDir::toNativeSeparators(otherRom));
 }
 
 void MainWindow::on_RomBrowser_ChangeRomDirectory(void)
@@ -1881,7 +1887,7 @@ void MainWindow::on_RomBrowser_ChangeRomDirectory(void)
 
     if (!dir.isEmpty())
     {
-        CoreSettingsSetValue(SettingsID::RomBrowser_Directory, dir.toStdString());
+        CoreSettingsSetValue(SettingsID::RomBrowser_Directory, QDir::toNativeSeparators(dir).toStdString());
         this->ui_Widget_RomBrowser->RefreshRomList();
     }
 }

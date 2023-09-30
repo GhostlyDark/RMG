@@ -394,7 +394,7 @@ QString RomBrowserWidget::getCurrentRom(void)
         return "";
     }
 
-    return data.file;
+    return QDir::toNativeSeparators(data.file);
 }
 
 void RomBrowserWidget::addRomData(QString file, CoreRomType type, CoreRomHeader header, CoreRomSettings settings)

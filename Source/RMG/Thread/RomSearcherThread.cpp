@@ -87,7 +87,7 @@ void RomSearcherThread::searchDirectory(QString directory)
     QList<QString> roms;
     while (romDirIt.hasNext())
     {
-        roms.push_back(romDirIt.next());
+        roms.push_back(QDir::toNativeSeparators(romDirIt.next()));
     }
 
     const int romAmount = std::min(this->maxItems, (int)roms.size());
