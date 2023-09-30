@@ -493,9 +493,18 @@ bool CorePluginsOpenConfig(CorePluginType type)
 
 bool CorePluginsHasROMConfig(CorePluginType type)
 {
+    std::string error;
     m64p::PluginApi* plugin;
 
     plugin = get_plugin(type);
+    if (plugin == nullptr)
+    {
+        error = "CorePluginsHasROMConfig Failed: ";
+        error += get_plugin_type_name(type);
+        error += " isn't a valid plugin type!";
+        CoreSetError(error);
+        return false;
+    }
 
     return plugin->Config2 != nullptr &&
             plugin->Config2HasRomConfig != nullptr &&
