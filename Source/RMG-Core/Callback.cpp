@@ -42,13 +42,16 @@ void CoreDebugCallback(void* context, int level, const char* message)
     }
 
     // convert string encoding accordingly
-    if (messageString.starts_with("IS64:"))
-    {
-        messageString = CoreConvertStringEncoding(message, CoreStringEncoding::EUC_JP);
-    }
-    else if (contextString.starts_with("[CORE]"))
-    {
-        messageString = CoreConvertStringEncoding(message, CoreStringEncoding::Shift_JIS);
+    if (contextString.starts_with("[CORE]"))
+    { 
+        if (messageString.starts_with("IS64:"))
+        {
+            messageString = CoreConvertStringEncoding(message, CoreStringEncoding::EUC_JP);
+        }
+        else if (messageString.starts_with("Name:"))
+        {
+            messageString = CoreConvertStringEncoding(message, CoreStringEncoding::Shift_JIS);
+        }
     }
 
     l_DebugCallbackFunc((CoreDebugMessageType)level, contextString, messageString);
